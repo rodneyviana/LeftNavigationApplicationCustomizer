@@ -25,4 +25,7 @@
       background-color: $ms-color-themePrimary;
       color: $ms-color-white;
   }
+  div#spSiteHeader {
+    display: none !important;
+  }
 }

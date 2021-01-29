@@ -8,7 +8,7 @@ import {
 import { Dialog } from '@microsoft/sp-dialog';
 
 import styles from './LeftNavigationApp.module.scss';
-import {AddNavigation} from './NavigationStuff'
+import {AddNavigation} from './NavigationStuff';
 
 import * as strings from 'LeftNavigationApplicationCustomizerStrings';
 
@@ -32,11 +32,27 @@ export default class LeftNavigationApplicationCustomizer
   private _topPlaceholder: any;
 
   @override
-  public onInit(): Promise<void> {
+  public async onInit(): Promise<void> {
+
+    const hideHeader = document.createElement("style");
+    hideHeader.innerHTML = `
+    div#spSiteHeader {
+      display: none !important;
+    }
+    `;
+
+    document.head.appendChild(hideHeader);
+    let spHeader = document.getElementById("spSiteHeader");
+    if(spHeader === null)
+      console.log("spHeader DOES NOT exist");
+    else
+      console.log("spHeader DOES exist");
+
+    await super.onInit();
+
     Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
     console.log("Started");
-    console.trace();
-
+    //console.trace();
     let message: string = this.properties.testMessage;
     if (!message) {
       message = '(No properties were provided.)';
@@ -47,7 +63,7 @@ export default class LeftNavigationApplicationCustomizer
 
     //Dialog.alert(`Hello from ${strings.Title}:\n\n${message}`);
 
-    return Promise.resolve();
+    return ;
   }
 
   private _renderPlaceHolders(): void {
